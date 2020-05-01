@@ -5,7 +5,7 @@ import Modal from '../core/modal';
 import InputForm from '../core/inputForm';
 import { formatCurrencyEUR } from '../../helper';
 
-import mockData from './mockData';
+import mockData from '../../mockData';
 
 class Main extends Component {
   constructor(props) {

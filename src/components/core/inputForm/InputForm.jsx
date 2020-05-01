@@ -27,7 +27,7 @@ const InputForm = ({ label, id, onClick, onSubmit, value, onChange }) => {
         {label}
       </label>
       <input
-        type="text"
+        type="number"
         id={id}
         className={styles.input}
         value={input}

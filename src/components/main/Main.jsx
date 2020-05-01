@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import styles from './main.styles.scss';
 import Table from '../core/table';
+import Modal from '../core/modal';
 
 import mockData from './mockData';
 
@@ -9,6 +10,7 @@ class Main extends Component {
     super(props);
     this.state = {
       data: [],
+      modalContent: '',
     };
   }
 
@@ -16,9 +18,17 @@ class Main extends Component {
     this.setState({ data: mockData });
   }
 
+  rowClickHandler = (data) => {
+    this.setState({ modalContent: JSON.stringify(data) });
+  };
+
+  modalCloseHandler = () => {
+    this.setState({ modalContent: '' });
+  };
+
   render() {
     // TODO: calculate budget_left
-    const { data } = this.state;
+    const { data, modalContent } = this.state;
     const keys = [
       { name: 'name', displayName: 'Company Name' },
       {
@@ -40,7 +50,10 @@ class Main extends Component {
 
     return (
       <div className={styles.main}>
-        <Table data={data} keys={keys} />
+        <Table data={data} keys={keys} onRowClick={this.rowClickHandler} />
+        {modalContent && (
+          <Modal onClose={this.modalCloseHandler}>{modalContent}</Modal>
+        )}
       </div>
     );
   }

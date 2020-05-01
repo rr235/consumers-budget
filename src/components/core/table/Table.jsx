@@ -12,7 +12,7 @@ const formatCurrencyEUR = (value) => {
   return value;
 };
 
-const Table = ({ data, keys }) => {
+const Table = ({ data, keys, onRowClick }) => {
   const getHead = () =>
     keys.map(({ displayName, name }) => <th key={name}>{displayName}</th>);
 
@@ -31,8 +31,12 @@ const Table = ({ data, keys }) => {
   };
 
   const getRow = () => {
-    // eslint-disable-next-line react/no-array-index-key
-    return data.map((row, index) => <tr key={index}>{getCol(row)}</tr>);
+    return data.map((row, index) => (
+      // eslint-disable-next-line react/no-array-index-key
+      <tr key={index} onClick={() => onRowClick(row)} tabIndex="0">
+        {getCol(row)}
+      </tr>
+    ));
   };
 
   return (

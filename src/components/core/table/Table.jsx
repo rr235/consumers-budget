@@ -1,16 +1,7 @@
 import React from 'react';
 import { arrayOf, shape, string, object, bool } from 'prop-types';
 import styles from './table.styles.scss';
-
-const formatCurrencyEUR = (value) => {
-  if (typeof value === 'number') {
-    return value.toLocaleString('de-DE', {
-      style: 'currency',
-      currency: 'EUR',
-    });
-  }
-  return value;
-};
+import { formatCurrencyEUR } from '../../../helper';
 
 const Table = ({ data, keys, onRowClick }) => {
   const getHead = () =>

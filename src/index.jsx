@@ -1,6 +1,7 @@
 import React from 'react';
 import { render } from 'react-dom';
+import Main from './components/main';
 
 const rootElement = document.querySelector('#root');
 
-render(<div>Martian Consumers</div>, rootElement);
+render(<Main />, rootElement);

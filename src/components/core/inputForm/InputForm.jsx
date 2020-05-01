@@ -45,11 +45,15 @@ InputForm.propTypes = {
   id: string.isRequired,
   onClick: func,
   onSubmit: func,
+  onChange: func,
+  value: string,
 };
 
 InputForm.defaultProps = {
   onClick: () => {},
   onSubmit: () => {},
+  onChange: () => {},
+  value: null,
 };
 
 export default InputForm;

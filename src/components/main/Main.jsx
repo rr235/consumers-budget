@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import styles from './main.styles.scss';
 import Table from '../core/table';
 import Modal from '../core/modal';
+import InputForm from '../core/inputForm';
+import { formatCurrencyEUR } from '../../helper';
 
 import mockData from './mockData';
 
@@ -10,7 +12,8 @@ class Main extends Component {
     super(props);
     this.state = {
       data: [],
-      modalContent: '',
+      modalData: {},
+      showModal: false,
     };
   }
 
@@ -19,16 +22,45 @@ class Main extends Component {
   }
 
   rowClickHandler = (data) => {
-    this.setState({ modalContent: JSON.stringify(data) });
+    this.setState({ modalData: data, showModal: true });
   };
 
   modalCloseHandler = () => {
-    this.setState({ modalContent: '' });
+    this.setState({ modalData: {}, showModal: false });
+  };
+
+  onSubmitHandler = (value) => {
+    console.log(value);
+  };
+
+  onBudgetChangeHandler = (budget, minBudget) => {
+    console.log(budget, minBudget);
+  };
+
+  getModalContent = () => {
+    const { modalData } = this.state;
+    return (
+      <Modal onClose={this.modalCloseHandler}>
+        <div className={styles.modalContent}>
+          <div>{`Name: ${modalData.name}`}</div>
+          <div>{`Total Budget: ${formatCurrencyEUR(modalData.budget)}`}</div>
+          <div>{`Budget Spent: ${formatCurrencyEUR(modalData.budget_spent)}`}</div>
+        </div>
+        <InputForm
+          label="Budget"
+          id="budget"
+          onSubmit={this.onSubmitHandler}
+          onChange={(value) => this.onBudgetChangeHandler(value, modalData.budget_spent)}
+          className={styles.employerSalary}
+          value={modalData.budget}
+        />
+      </Modal>
+    );
   };
 
   render() {
     // TODO: calculate budget_left
-    const { data, modalContent } = this.state;
+    const { data, showModal } = this.state;
     const keys = [
       { name: 'name', displayName: 'Company Name' },
       {
@@ -51,9 +83,7 @@ class Main extends Component {
     return (
       <div className={styles.main}>
         <Table data={data} keys={keys} onRowClick={this.rowClickHandler} />
-        {modalContent && (
-          <Modal onClose={this.modalCloseHandler}>{modalContent}</Modal>
-        )}
+        {showModal && this.getModalContent()}
       </div>
     );
   }

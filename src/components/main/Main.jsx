@@ -2,9 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import styles from './main.styles.scss';
 import Table from '../core/table';
-import Modal from '../core/modal';
-import InputForm from '../core/inputForm';
-import { formatCurrencyEUR } from '../../helper';
+import ModalContent from './components/ModalContent';
 import {
   fetchCustomers as fetchCustomersAction,
   setSelectedCustomer as setSelectedCustomerAction,
@@ -30,7 +28,7 @@ class Main extends Component {
     setSelectedCustomer(data);
   };
 
-  modalCloseHandler = () => {
+  onModalCloseHandler = () => {
     this.setState({ showModal: false });
   };
 
@@ -42,30 +40,9 @@ class Main extends Component {
     console.log(budget, minBudget);
   };
 
-  getModalContent = () => {
-    const { selectedCustomer } = this.props;
-    return (
-      <Modal onClose={this.modalCloseHandler}>
-        <div className={styles.modalContent}>
-          <div>{`Name: ${selectedCustomer.name}`}</div>
-          <div>{`Total Budget: ${formatCurrencyEUR(selectedCustomer.budget)}`}</div>
-          <div>{`Budget Spent: ${formatCurrencyEUR(selectedCustomer.budget_spent)}`}</div>
-        </div>
-        <InputForm
-          label="Budget"
-          id="budget"
-          onSubmit={this.onSubmitHandler}
-          onChange={(value) => this.onBudgetChangeHandler(value, selectedCustomer.budget_spent)}
-          className={styles.employerSalary}
-          value={selectedCustomer.budget}
-        />
-      </Modal>
-    );
-  };
-
   render() {
     // TODO: calculate budget_left
-    const { customers } = this.props;
+    const { customers, selectedCustomer } = this.props;
     const { showModal } = this.state;
     const keys = [
       { name: 'name', displayName: 'Company Name' },
@@ -89,7 +66,15 @@ class Main extends Component {
     return (
       <div className={styles.main}>
         <Table data={customers} keys={keys} onRowClick={this.rowClickHandler} />
-        {showModal && this.getModalContent()}
+        {showModal && (
+          <ModalContent
+            data={selectedCustomer}
+            className={styles.modalContent}
+            onSubmit={this.onSubmitHandler}
+            onChange={this.onBudgetChangeHandler}
+            onClose={this.onModalCloseHandler}
+          />
+        )}
       </div>
     );
   }

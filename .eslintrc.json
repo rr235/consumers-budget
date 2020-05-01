@@ -1,0 +1,16 @@
+{
+  "extends": ["airbnb", "airbnb/hooks", "plugin:prettier/recommended"],
+  "parser": "babel-eslint",
+  "globals": {
+    "jest": false,
+    "describe": false,
+    "it": false,
+    "expect": false,
+    "beforeAll": false,
+    "beforeEach": false,
+    "document": false
+  },
+  "rules": {
+    "no-shadow": 1
+  }
+}

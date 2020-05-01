@@ -1,0 +1,44 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Table should render correctly 1`] = `
+<table
+  className="table"
+>
+  <thead>
+    <tr>
+      <th>
+        Column 1
+      </th>
+      <th>
+        Column 3
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr
+      onClick={[Function]}
+      tabIndex="0"
+    >
+      <td>
+        row1
+      </td>
+    </tr>
+    <tr
+      onClick={[Function]}
+      tabIndex="0"
+    >
+      <td>
+        row2
+      </td>
+    </tr>
+    <tr
+      onClick={[Function]}
+      tabIndex="0"
+    >
+      <td>
+        row3
+      </td>
+    </tr>
+  </tbody>
+</table>
+`;

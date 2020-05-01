@@ -19,6 +19,13 @@ class Main extends Component {
     const keys = [
       { name: 'id', displayName: 'Id' },
       { name: 'name', displayName: 'Name' },
+      { name: 'budget', displayName: 'Budget', formatCurrencyEuro: true },
+      {
+        name: 'budget_spent',
+        displayName: 'Budget Spent',
+        formatCurrencyEuro: true,
+      },
+      { name: 'date_of_first_purchase', displayName: 'Date of first purchase' },
     ];
 
     return <Table data={data} keys={keys} />;

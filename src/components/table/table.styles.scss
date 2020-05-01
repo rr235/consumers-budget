@@ -1,0 +1,37 @@
+
+$color: #fdfdfd;
+$heading-color: #FF4338;
+$main-color: #1a232e;
+$alt-color: #252B37;
+$border-color: #3E454F;
+$hover-color: #353B47;
+
+.table {
+  background-color: $main-color;
+  border: 1px solid $border-color;
+  border-collapse: collapse;
+  color: $color;
+  width: 100%;
+
+  tr, td, th {
+    border: 1px solid $border-color;
+    padding: 0.5rem;
+  }
+
+  th {
+    background-color: $main-color;
+    color: $heading-color;
+    font-size: 1.2rem;
+    font-weight: 100;
+    text-align: left;
+  }
+
+  tr:nth-child(2n + 1) {
+    background-color: $alt-color;
+  }
+
+  tbody > tr:hover {
+    background-color: $hover-color;
+    cursor: pointer;
+  }
+}

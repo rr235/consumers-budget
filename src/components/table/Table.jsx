@@ -1,14 +1,23 @@
 import React from 'react';
-import { arrayOf, shape, string, object } from 'prop-types';
+import { arrayOf, shape, string, object, bool } from 'prop-types';
+import styles from './table.styles.scss';
 
 const Table = ({ data, keys }) => {
   const getHead = () =>
     keys.map(({ displayName, name }) => <th key={name}>{displayName}</th>);
 
   const getCol = (row) => {
-    return keys.map(({ name }) => {
+    return keys.map(({ name, formatCurrencyEuro }) => {
       if (row[name]) {
-        return <td key={name}>{row[name]}</td>;
+        let value = row[name];
+        if (typeof value === 'number' && formatCurrencyEuro) {
+          value = value.toLocaleString('de-DE', {
+            style: 'currency',
+            currency: 'EUR',
+          });
+        }
+
+        return <td key={name}>{value}</td>;
       }
       return null;
     });
@@ -20,7 +29,7 @@ const Table = ({ data, keys }) => {
   };
 
   return (
-    <table>
+    <table className={styles.table}>
       <thead>
         <tr>{getHead()}</tr>
       </thead>
@@ -34,6 +43,7 @@ Table.propTypes = {
     shape({
       name: string,
       displayName: string,
+      formatCurrencyEuro: bool,
     })
   ),
   data: arrayOf(object),

@@ -8,9 +8,8 @@ const ModalContent = ({ data, onSubmit, onClose, onChange, className }) => {
   return (
     <Modal onClose={onClose}>
       <div className={className}>
-        <div>{`Name: ${data.name}`}</div>
-        <div>{`Total Budget: ${formatCurrencyEUR(data.budget)}`}</div>
-        <div>{`Budget Spent: ${formatCurrencyEUR(data.budget_spent)}`}</div>
+        <div>{`Customer name: ${data.name}`}</div>
+        <div>{`Budget spent: ${formatCurrencyEUR(data.budget_spent)}`}</div>
       </div>
       <InputForm
         label="Budget"
@@ -26,7 +25,6 @@ const ModalContent = ({ data, onSubmit, onClose, onChange, className }) => {
 ModalContent.propTypes = {
   data: shape({
     name: string,
-    budget: number,
     budget_spent: number,
   }),
   onSubmit: func.isRequired,

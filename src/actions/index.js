@@ -1,13 +1,18 @@
 import axios from 'axios';
 import { FETCH_CUSTOMERS_DATA, SET_SELECTED_CUSTOMER } from './types';
 
-// eslint-disable-next-line import/prefer-default-export
+const getDataWithBudgetLeft = (data) =>
+  data.map((item) => {
+    const budgetLeft = item.budget - item.budget_spent;
+    return Object.assign(item, { budget_left: budgetLeft });
+  });
+
 export const fetchCustomers = () => async (dispatch) => {
   try {
     const { data } = await axios.get(`http://localhost:5000/customers`);
     dispatch({
       type: FETCH_CUSTOMERS_DATA,
-      payload: data,
+      payload: getDataWithBudgetLeft(data),
     });
   } catch (error) {
     console.log(error);

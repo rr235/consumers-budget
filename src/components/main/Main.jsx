@@ -41,7 +41,6 @@ class Main extends Component {
   };
 
   render() {
-    // TODO: calculate budget_left
     const { customers, selectedCustomer } = this.props;
     const { showModal } = this.state;
     const keys = [

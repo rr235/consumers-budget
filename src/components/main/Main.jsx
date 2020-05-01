@@ -1,24 +1,26 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import styles from './main.styles.scss';
 import Table from '../core/table';
 import Modal from '../core/modal';
 import InputForm from '../core/inputForm';
 import { formatCurrencyEUR } from '../../helper';
-
-import mockData from '../../mockData';
+import { fetchCustomers as fetchCustomersAction } from '../../actions';
 
 class Main extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: [],
       modalData: {},
       showModal: false,
     };
   }
 
   componentDidMount() {
-    this.setState({ data: mockData });
+    // this.setState({ data: mockData });
+    const { fetchCustomers } = this.props;
+
+    fetchCustomers();
   }
 
   rowClickHandler = (data) => {
@@ -60,7 +62,8 @@ class Main extends Component {
 
   render() {
     // TODO: calculate budget_left
-    const { data, showModal } = this.state;
+    const { customers } = this.props;
+    const { showModal } = this.state;
     const keys = [
       { name: 'name', displayName: 'Company Name' },
       {
@@ -82,11 +85,17 @@ class Main extends Component {
 
     return (
       <div className={styles.main}>
-        <Table data={data} keys={keys} onRowClick={this.rowClickHandler} />
+        <Table data={customers} keys={keys} onRowClick={this.rowClickHandler} />
         {showModal && this.getModalContent()}
       </div>
     );
   }
 }
 
-export default Main;
+const mapStateToProps = ({ customers }) => ({
+  customers,
+});
+
+export default connect(mapStateToProps, {
+  fetchCustomers: fetchCustomersAction,
+})(Main);

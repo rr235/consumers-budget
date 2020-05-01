@@ -1,11 +1,15 @@
+import axios from 'axios';
 import { FETCH_CUSTOMERS_DATA } from './types';
-import mockData from '../mockData';
 
 // eslint-disable-next-line import/prefer-default-export
 export const fetchCustomers = () => async (dispatch) => {
-  const data = mockData;
-  dispatch({
-    type: FETCH_CUSTOMERS_DATA,
-    payload: data,
-  });
+  try {
+    const { data } = await axios.get(`http://localhost:5000/customers`);
+    dispatch({
+      type: FETCH_CUSTOMERS_DATA,
+      payload: data,
+    });
+  } catch (error) {
+    console.log(error);
+  }
 };

@@ -5,30 +5,33 @@ import Table from '../core/table';
 import Modal from '../core/modal';
 import InputForm from '../core/inputForm';
 import { formatCurrencyEUR } from '../../helper';
-import { fetchCustomers as fetchCustomersAction } from '../../actions';
+import {
+  fetchCustomers as fetchCustomersAction,
+  setSelectedCustomer as setSelectedCustomerAction,
+} from '../../actions';
 
 class Main extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      modalData: {},
       showModal: false,
     };
   }
 
   componentDidMount() {
-    // this.setState({ data: mockData });
     const { fetchCustomers } = this.props;
 
     fetchCustomers();
   }
 
   rowClickHandler = (data) => {
-    this.setState({ modalData: data, showModal: true });
+    const { setSelectedCustomer } = this.props;
+    this.setState({ showModal: true });
+    setSelectedCustomer(data);
   };
 
   modalCloseHandler = () => {
-    this.setState({ modalData: {}, showModal: false });
+    this.setState({ showModal: false });
   };
 
   onSubmitHandler = (value) => {
@@ -40,21 +43,21 @@ class Main extends Component {
   };
 
   getModalContent = () => {
-    const { modalData } = this.state;
+    const { selectedCustomer } = this.props;
     return (
       <Modal onClose={this.modalCloseHandler}>
         <div className={styles.modalContent}>
-          <div>{`Name: ${modalData.name}`}</div>
-          <div>{`Total Budget: ${formatCurrencyEUR(modalData.budget)}`}</div>
-          <div>{`Budget Spent: ${formatCurrencyEUR(modalData.budget_spent)}`}</div>
+          <div>{`Name: ${selectedCustomer.name}`}</div>
+          <div>{`Total Budget: ${formatCurrencyEUR(selectedCustomer.budget)}`}</div>
+          <div>{`Budget Spent: ${formatCurrencyEUR(selectedCustomer.budget_spent)}`}</div>
         </div>
         <InputForm
           label="Budget"
           id="budget"
           onSubmit={this.onSubmitHandler}
-          onChange={(value) => this.onBudgetChangeHandler(value, modalData.budget_spent)}
+          onChange={(value) => this.onBudgetChangeHandler(value, selectedCustomer.budget_spent)}
           className={styles.employerSalary}
-          value={modalData.budget}
+          value={selectedCustomer.budget}
         />
       </Modal>
     );
@@ -92,10 +95,12 @@ class Main extends Component {
   }
 }
 
-const mapStateToProps = ({ customers }) => ({
+const mapStateToProps = ({ customers, selectedCustomer }) => ({
   customers,
+  selectedCustomer,
 });
 
 export default connect(mapStateToProps, {
   fetchCustomers: fetchCustomersAction,
+  setSelectedCustomer: setSelectedCustomerAction,
 })(Main);

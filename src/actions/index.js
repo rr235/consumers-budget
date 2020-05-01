@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { FETCH_CUSTOMERS_DATA } from './types';
+import { FETCH_CUSTOMERS_DATA, SET_SELECTED_CUSTOMER } from './types';
 
 // eslint-disable-next-line import/prefer-default-export
 export const fetchCustomers = () => async (dispatch) => {
@@ -12,4 +12,8 @@ export const fetchCustomers = () => async (dispatch) => {
   } catch (error) {
     console.log(error);
   }
+};
+
+export const setSelectedCustomer = (customer) => (dispatch) => {
+  dispatch({ type: SET_SELECTED_CUSTOMER, payload: customer });
 };

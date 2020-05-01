@@ -7,6 +7,8 @@ import ModalContent from './components/ModalContent';
 import {
   fetchCustomers as fetchCustomersAction,
   setSelectedCustomer as setSelectedCustomerAction,
+  updateCustomerBudget as updateCustomerBudgetAction,
+  updateCustomerData as updateCustomerDataAction,
 } from '../../actions';
 
 class Main extends Component {
@@ -31,10 +33,15 @@ class Main extends Component {
 
   onModalCloseHandler = () => {
     this.setState({ showModal: false });
+    const { updateCustomerData, selectedCustomer, setSelectedCustomer } = this.props;
+    delete selectedCustomer.success;
+    updateCustomerData(selectedCustomer);
+    setSelectedCustomer({});
   };
 
   onSubmitHandler = (value) => {
-    console.log(value);
+    const { selectedCustomer, updateCustomerBudget } = this.props;
+    updateCustomerBudget({ newBudget: value, id: selectedCustomer.id });
   };
 
   render() {
@@ -70,6 +77,9 @@ class Main extends Component {
             onClose={this.onModalCloseHandler}
           />
         )}
+        {selectedCustomer.success && (
+          <div className={styles.successMessage}>Data Updated Successfully</div>
+        )}
       </div>
     );
   }
@@ -87,6 +97,8 @@ const customerShape = shape({
 Main.propTypes = {
   fetchCustomers: func.isRequired,
   setSelectedCustomer: func.isRequired,
+  updateCustomerBudget: func.isRequired,
+  updateCustomerData: func.isRequired,
   selectedCustomer: customerShape,
   customers: arrayOf(customerShape),
 };
@@ -104,4 +116,6 @@ const mapStateToProps = ({ customers, selectedCustomer }) => ({
 export default connect(mapStateToProps, {
   fetchCustomers: fetchCustomersAction,
   setSelectedCustomer: setSelectedCustomerAction,
+  updateCustomerBudget: updateCustomerBudgetAction,
+  updateCustomerData: updateCustomerDataAction,
 })(Main);

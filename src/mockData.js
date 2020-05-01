@@ -29,4 +29,13 @@ const data = [
   },
 ];
 
-module.exports = data;
+const updateBudget = (id, budget) => {
+  const customerIndex = data.findIndex((entry) => entry.id === id);
+  if (customerIndex === -1) {
+    throw new Error('Invalid Data');
+  }
+  data[customerIndex] = Object.assign(data[customerIndex], { budget: Number(budget) });
+  return data[customerIndex];
+};
+
+module.exports = { data, updateBudget };

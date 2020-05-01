@@ -2,16 +2,27 @@ import React, { useRef, useEffect } from 'react';
 import { node, func } from 'prop-types';
 import styles from './modal.styles.scss';
 
+const KEY_ESCAPE = 27;
+
 const Modal = ({ children, onClose }) => {
   const refModal = useRef(null);
+
+  const onKeyDownHandler = (e) => {
+    if (e.keyCode === KEY_ESCAPE) {
+      onClose();
+    }
+  };
 
   useEffect(() => {
     // adds no-scroll on component mount
     document.body.classList.add(styles.noScroll);
+    document.addEventListener('keydown', onKeyDownHandler);
 
     // removes no-scroll on component mount
     return () => {
       document.body.classList.remove(styles.noScroll);
+
+      document.removeEventListener('keydown', onKeyDownHandler);
     };
   }, []);
 
@@ -22,9 +33,9 @@ const Modal = ({ children, onClose }) => {
     }
   };
 
+  /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
+  /* eslint-disable jsx-a11y/click-events-have-key-events */
   return (
-    /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
-    /* eslint-disable jsx-a11y/click-events-have-key-events */
     <div
       role="dialog"
       aria-modal="true"
@@ -39,9 +50,9 @@ const Modal = ({ children, onClose }) => {
         {children}
       </div>
     </div>
-    /* eslint-enable jsx-a11y/no-noninteractive-element-interactions */
-    /* eslint-enable jsx-a11y/click-events-have-key-events */
   );
+  /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
+  /* eslint-disable jsx-a11y/click-events-have-key-events */
 };
 
 Modal.propTypes = {

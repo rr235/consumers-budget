@@ -2,6 +2,9 @@ $button-color: #FF4338;
 $hover-color: #ef564e;
 $border-color: #3E454F;
 $color: #fdfdfd;
+$error-color: #a92020;
+$disabled-color: #e48782;
+
 
 .button {
   background-color: $button-color;
@@ -13,15 +16,19 @@ $color: #fdfdfd;
   font-size: 0.75rem;
   letter-spacing: 0.4px;
   line-height: 1.45;
-  margin: 0.3125rem 0.5rem 0.3125rem 0;
-  padding: 0.8125rem 1.5rem;
+  margin: 0.3rem 0.5rem 0.3rem 0;
+  padding: 0.9rem 1.5rem;
   text-align: center;
   text-transform: uppercase;
-  -webkit-transition: all 0.25s ease;
   transition: all 0.25s ease;
 
   &:hover {
     background-color: $hover-color;
+  }
+
+  &:disabled {
+    background-color: $disabled-color;
+    cursor: not-allowed;
   }
 }
 
@@ -29,10 +36,10 @@ $color: #fdfdfd;
   background: $color;
   border: 1px solid $border-color;
   border-radius: 4px;
-  font-size: 0.875rem;
-  height: 43px;
-  margin-top: 3px;
-  padding: 0 15px;
+  font-size: 0.9rem;
+  height: 2.5rem;
+  margin-top: 0.2rem;
+  padding: 0 0.3rem;
   width: 100%;
 
   &:disabled {
@@ -42,4 +49,12 @@ $color: #fdfdfd;
 
 .label {
   font-size: 0.9rem;
+}
+
+.error {
+  color: $error-color;
+  display: block;
+  font-size: 0.9rem;
+  margin-top: 0.3rem;
+  min-height: 1.4rem;
 }

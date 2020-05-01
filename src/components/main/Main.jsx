@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { func, shape, number, string, arrayOf } from 'prop-types';
 import { connect } from 'react-redux';
 import styles from './main.styles.scss';
 import Table from '../core/table';
@@ -36,10 +37,6 @@ class Main extends Component {
     console.log(value);
   };
 
-  onBudgetChangeHandler = (budget, minBudget) => {
-    console.log(budget, minBudget);
-  };
-
   render() {
     const { customers, selectedCustomer } = this.props;
     const { showModal } = this.state;
@@ -70,7 +67,6 @@ class Main extends Component {
             data={selectedCustomer}
             className={styles.modalContent}
             onSubmit={this.onSubmitHandler}
-            onChange={this.onBudgetChangeHandler}
             onClose={this.onModalCloseHandler}
           />
         )}
@@ -78,6 +74,27 @@ class Main extends Component {
     );
   }
 }
+
+const customerShape = shape({
+  id: number,
+  name: string,
+  budget: number,
+  budget_spent: number,
+  budget_left: number,
+  date_of_first_purchase: string,
+});
+
+Main.propTypes = {
+  fetchCustomers: func.isRequired,
+  setSelectedCustomer: func.isRequired,
+  selectedCustomer: customerShape,
+  customers: arrayOf(customerShape),
+};
+
+Main.defaultProps = {
+  selectedCustomer: {},
+  customers: [],
+};
 
 const mapStateToProps = ({ customers, selectedCustomer }) => ({
   customers,

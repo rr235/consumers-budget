@@ -1,10 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { string, shape, number, func } from 'prop-types';
 import Modal from '../../core/modal';
 import InputForm from '../../core/inputForm';
 import { formatCurrencyEUR } from '../../../helper';
 
-const ModalContent = ({ data, onSubmit, onClose, onChange, className }) => {
+const ModalContent = ({ data, onSubmit, onClose, className }) => {
+  const [error, setError] = useState();
+
+  const onChangeHandler = (budget, budgetSpent) => {
+    setError(budget < budgetSpent ? 'Budget should be more than the budget already spent.' : '');
+  };
+
   return (
     <Modal onClose={onClose}>
       <div className={className}>
@@ -15,8 +21,9 @@ const ModalContent = ({ data, onSubmit, onClose, onChange, className }) => {
         label="Budget"
         id="budget"
         onSubmit={onSubmit}
-        onChange={(value) => onChange(value, data.budget_spent)}
+        onChange={(value) => onChangeHandler(value, data.budget_spent)}
         value={data.budget}
+        errorMessage={error}
       />
     </Modal>
   );
@@ -29,7 +36,6 @@ ModalContent.propTypes = {
   }),
   onSubmit: func.isRequired,
   onClose: func.isRequired,
-  onChange: func.isRequired,
   className: string,
 };
 

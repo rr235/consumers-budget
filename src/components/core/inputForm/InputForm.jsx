@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { string, func } from 'prop-types';
+import { string, func, number } from 'prop-types';
 import styles from './inputForm.styles.scss';
 
-const InputForm = ({ label, id, onClick, onSubmit, value, onChange }) => {
+const InputForm = ({ label, id, onClick, onSubmit, value, onChange, errorMessage }) => {
   const [input, setInput] = useState('');
 
   useEffect(() => {
@@ -33,7 +33,8 @@ const InputForm = ({ label, id, onClick, onSubmit, value, onChange }) => {
         value={input}
         onChange={onChangeHandler}
       />
-      <button type="submit" onClick={onClick} className={styles.button}>
+      <span className={styles.error}>{errorMessage}</span>
+      <button type="submit" onClick={onClick} className={styles.button} disabled={!!errorMessage}>
         Submit
       </button>
     </form>
@@ -46,7 +47,8 @@ InputForm.propTypes = {
   onClick: func,
   onSubmit: func,
   onChange: func,
-  value: string,
+  value: number,
+  errorMessage: string,
 };
 
 InputForm.defaultProps = {
@@ -54,6 +56,7 @@ InputForm.defaultProps = {
   onSubmit: () => {},
   onChange: () => {},
   value: null,
+  errorMessage: null,
 };
 
 export default InputForm;

@@ -2,6 +2,16 @@ import React from 'react';
 import { arrayOf, shape, string, object, bool } from 'prop-types';
 import styles from './table.styles.scss';
 
+const formatCurrencyEUR = (value) => {
+  if (typeof value === 'number') {
+    return value.toLocaleString('de-DE', {
+      style: 'currency',
+      currency: 'EUR',
+    });
+  }
+  return value;
+};
+
 const Table = ({ data, keys }) => {
   const getHead = () =>
     keys.map(({ displayName, name }) => <th key={name}>{displayName}</th>);
@@ -10,11 +20,8 @@ const Table = ({ data, keys }) => {
     return keys.map(({ name, formatCurrencyEuro }) => {
       if (row[name]) {
         let value = row[name];
-        if (typeof value === 'number' && formatCurrencyEuro) {
-          value = value.toLocaleString('de-DE', {
-            style: 'currency',
-            currency: 'EUR',
-          });
+        if (formatCurrencyEuro) {
+          value = formatCurrencyEUR(value);
         }
 
         return <td key={name}>{value}</td>;

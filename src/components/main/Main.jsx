@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import Table from '../table';
+import styles from './main.styles.scss';
+import Table from '../core/table';
+
 import mockData from './mockData';
 
 class Main extends Component {
@@ -15,20 +17,32 @@ class Main extends Component {
   }
 
   render() {
+    // TODO: calculate budget_left
     const { data } = this.state;
     const keys = [
-      { name: 'id', displayName: 'Id' },
-      { name: 'name', displayName: 'Name' },
-      { name: 'budget', displayName: 'Budget', formatCurrencyEuro: true },
+      { name: 'name', displayName: 'Company Name' },
+      {
+        name: 'date_of_first_purchase',
+        displayName: 'Date of First Purchase',
+      },
+      { name: 'budget', displayName: 'Total Budget', formatCurrencyEuro: true },
       {
         name: 'budget_spent',
         displayName: 'Budget Spent',
         formatCurrencyEuro: true,
       },
-      { name: 'date_of_first_purchase', displayName: 'Date of first purchase' },
+      {
+        name: 'budget_left',
+        displayName: 'Budget Left',
+        formatCurrencyEuro: true,
+      },
     ];
 
-    return <Table data={data} keys={keys} />;
+    return (
+      <div className={styles.main}>
+        <Table data={data} keys={keys} />
+      </div>
+    );
   }
 }
 
